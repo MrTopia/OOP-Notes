@@ -271,3 +271,150 @@ It's useful in OOP because:
 
  * Code reusability: It promotes code reuse by allowing you to write code that works with objects of different classes.
 
+
+12.What do you mean by operator overloading and method overloading? Write a distance class which contains data members of distance in meters, centimeters and millimeters. The class must Have overloaded operators for addition + and subtraction- respectively.
+
+14.Explain the following terms in the context of object oriented programming. Also explain how These concepts are implemented in C++ by giving an example program for each.
+(a)Benefits of Data Abstraction
+(b)Encapsulation
+(c) Virtual base class and when do we make it.
+(d )Polymorphism and its types.
+
+Ans- ### (a) Benefits of Data Abstraction
+**Data abstraction** is the process of hiding the complex implementation details and showing only the necessary features of an object. It simplifies code and improves security by exposing only relevant data and methods.
+
+**Benefits**:
+1. Simplifies complex systems by breaking them into smaller, understandable units.
+2. Enhances security by exposing only necessary components.
+3. Improves code maintenance and readability.
+
+### (b) Encapsulation
+**Encapsulation** is the bundling of data and methods that operate on that data within a single unit, or class. It restricts direct access to some of an object's components, which can prevent unintended interference and misuse.
+
+### (c) Virtual Base Class
+A **virtual base class** is used in C++ to prevent multiple instances of a base class appearing in the inheritance hierarchy when using multiple inheritances. It ensures that only one copy of a base class is inherited, avoiding ambiguity and redundancy.
+
+**When to use**: It is useful when we have a "diamond problem" where a base class is inherited multiple times through different paths.
+
+### (d) Polymorphism and Its Types
+**Polymorphism** allows objects to be treated as instances of their parent class, enabling a single function or method to work with different types. It comes in two forms:
+1. **Compile-time (Static) Polymorphism**: Achieved through function overloading or operator overloading.
+2. **Run-time (Dynamic) Polymorphism**: Achieved through inheritance and virtual functions.
+
+Here are the updated C++ examples with `using namespace std;` included:
+
+### (a) Benefits of Data Abstraction
+
+**Example in C++**:
+```cpp
+#include <iostream>
+using namespace std;
+
+class AbstractExample {
+public:
+    virtual void show() = 0; // Pure virtual function
+};
+
+class ConcreteExample : public AbstractExample {
+public:
+    void show() override { cout << "Data Abstraction Example"; }
+};
+
+int main() {
+    ConcreteExample obj;
+    obj.show();
+    return 0;
+}
+```
+
+### (b) Encapsulation
+
+**Example in C++**:
+```cpp
+#include <iostream>
+using namespace std;
+
+class Encapsulate {
+private:
+    int data; // private data member
+public:
+    void setData(int d) { data = d; }  // setter method
+    int getData() { return data; }     // getter method
+};
+
+int main() {
+    Encapsulate obj;
+    obj.setData(5);
+    cout << obj.getData();
+    return 0;
+}
+```
+
+### (c) Virtual Base Class
+
+**Example in C++**:
+```cpp
+#include <iostream>
+using namespace std;
+
+class Base {
+public:
+    void show() { cout << "Base class"; }
+};
+
+class Derived1 : virtual public Base {};
+class Derived2 : virtual public Base {};
+class Derived3 : public Derived1, public Derived2 {};
+
+int main() {
+    Derived3 obj;
+    obj.show(); // No ambiguity due to virtual base class
+    return 0;
+}
+```
+
+### (d) Polymorphism and Its Types
+
+**Example of Compile-time Polymorphism in C++**:
+```cpp
+#include <iostream>
+using namespace std;
+
+class PolymorphismExample {
+public:
+    void show(int a) { cout << "Integer: " << a; } // Overloaded function
+    void show(double a) { cout << "Double: " << a; } // Overloaded function
+};
+
+int main() {
+    PolymorphismExample obj;
+    obj.show(5);    // Calls first version
+    obj.show(5.5);  // Calls second version
+    return 0;
+}
+```
+
+**Example of Run-time Polymorphism in C++**:
+```cpp
+#include <iostream>
+using namespace std;
+
+class Base {
+public:
+    virtual void show() { cout << "Base class"; } // Virtual function
+};
+
+class Derived : public Base {
+public:
+    void show() override { cout << "Derived class"; }
+};
+
+int main() {
+    Base* ptr;
+    Derived obj;
+    ptr = &obj;
+    ptr->show();  // Calls Derived class's function due to polymorphism
+    return 0;
+}
+```
+
