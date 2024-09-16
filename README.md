@@ -418,3 +418,353 @@ int main() {
 }
 ```
 
+### 14) What is inline function? When will you make a function inline and why ?
+
+Ans - An **inline function** is a function where the compiler replaces the function call with the actual code of the function, reducing function call overhead.
+
+You'd make a function inline when:
+- It's small and called frequently.
+- You want to avoid the overhead of function calls.
+However, making large functions inline can increase code size and reduce cache efficiency. Use inline for performance-critical, small functions.
+
+### 15) What is a pure virtual function ? Explain use of pure virtual function with an example.
+
+Ans - A **pure virtual function** is a function declared in a base class that has no implementation and must be overridden by derived classes. It is used to create abstract classes, which cannot be instantiated and are meant to be used as base classes.
+
+## Example:
+```cpp
+class Shape {
+public:
+    virtual void draw() = 0;  // Pure virtual function
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        // Implementation for drawing a circle
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void draw() override {
+        // Implementation for drawing a rectangle
+    }
+};
+```
+### 16) Explain the concept of default constructor, copy constructor and parameterized constructor with the help of suitable c++ program.
+
+Ans - 
+## 1. **Default Constructor**: 
+A constructor that takes no parameters and is used to initialize an object with default values.
+
+## 2. **Copy Constructor**: 
+A constructor that creates a new object as a copy of an existing object. It takes a reference to another object of the same class as a parameter.
+
+## 3. **Parameterized Constructor**: 
+A constructor that takes parameters to initialize an object with specific values.
+
+### Example Program:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Demo {
+    int x, y;
+
+public:
+    // Default constructor
+    Demo() {
+        x = 0;
+        y = 0;
+        cout << "Default Constructor called" << endl;
+    }
+
+    // Parameterized constructor
+    Demo(int a, int b) {
+        x = a;
+        y = b;
+        cout << "Parameterized Constructor called" << endl;
+    }
+
+    // Copy constructor
+    Demo(const Demo &obj) {
+        x = obj.x;
+        y = obj.y;
+        cout << "Copy Constructor called" << endl;
+    }
+
+    void display() {
+        cout << "x: " << x << ", y: " << y << endl;
+    }
+};
+
+int main() {
+    Demo obj1;               // Default constructor
+    obj1.display();
+
+    Demo obj2(10, 20);       // Parameterized constructor
+    obj2.display();
+
+    Demo obj3 = obj2;        // Copy constructor
+    obj3.display();
+
+    return 0;
+}
+```
+
+### Output:
+```
+Default Constructor called
+x: 0, y: 0
+Parameterized Constructor called
+x: 10, y: 20
+Copy Constructor called
+x: 10, y: 20
+```
+### 17) What is an exception? Explain how exceptions are handled in C++, with the help of an example program. When do we used multiple catch handlers?
+
+Ans- 
+
+An **exception** is an error or unexpected event that occurs during the execution of a program. C++ provides a way to handle exceptions using `try`, `throw`, and `catch` blocks, allowing the program to catch errors and recover instead of terminating abruptly.
+
+## Exception Handling in C++:
+- **try**: Code that might throw an exception is placed in the `try` block.
+- **throw**: When an error occurs, an exception is thrown using the `throw` keyword.
+- **catch**: The `catch` block catches and handles the thrown exception.
+
+## Example Program:
+```cpp
+#include <iostream>
+using namespace std;
+
+int divide(int a, int b) {
+    if (b == 0) {
+        throw "Division by zero error!";  // Throwing an exception
+    }
+    return a / b;
+}
+
+int main() {
+    int x = 10, y = 0;
+    
+    try {
+        cout << "Result: " << divide(x, y) << endl;
+    } catch (const char* e) {
+        // Catching and handling the exception
+        cout << "Exception: " << e << endl;
+    }
+    
+    return 0;
+}
+```
+
+## Output:
+```
+Exception: Division by zero error!
+```
+
+In this example, the `divide()` function throws an exception when division by zero is attempted, and the `catch` block handles the error.
+
+## Multiple Catch Handlers:
+Multiple `catch` blocks can be used to handle different types of exceptions. This is useful when different exceptions need to be handled differently.
+
+## Example with Multiple Catch Blocks:
+```cpp
+#include <iostream>
+using namespace std;
+
+int divide(int a, int b) {
+    if (b == 0) throw "Division by zero error!";  // Throw string error
+    if (a < 0 || b < 0) throw -1;                // Throw integer error
+    return a / b;
+}
+
+int main() {
+    int x = -10, y = 0;
+    
+    try {
+        cout << "Result: " << divide(x, y) << endl;
+    } catch (const char* e) {
+        cout << "String Exception: " << e << endl;
+    } catch (int e) {
+        cout << "Integer Exception: Error code " << e << endl;
+    }
+    
+    return 0;
+}
+```
+
+## Output:
+```
+String Exception: Division by zero error!
+```
+
+## When to Use Multiple Catch Handlers:
+You use multiple catch blocks when:
+- You want to handle different types of exceptions differently (e.g., integer, string, object types).
+- Different exceptions require different logic to handle them properly.
+
+### 18) What is generic programming? How is it implemented in c++?
+
+Ans - **Generic programming** is a programming paradigm that allows writing code that works with any data type. Instead of writing separate code for each data type, you can write a single, reusable piece of code that operates on various data types. In C++, this is achieved using **templates**.
+
+## Templates in C++:
+Templates allow you to define functions or classes that can work with any type of data. There are two types of templates:
+1. **Function templates** 
+2. **Class templates**
+
+## 1. Function Templates:
+A **function template** defines a template for a function, allowing the function to operate on different types of data.
+
+## Example:
+```cpp
+#include <iostream>
+using namespace std;
+
+// Function template for swapping two values
+template <typename T>
+void swapValues(T& a, T& b) {
+    T temp = a;
+    a = b;
+    b = temp;
+}
+
+int main() {
+    int x = 5, y = 10;
+    double a = 1.5, b = 2.5;
+
+    cout << "Before swap: x = " << x << ", y = " << y << endl;
+    swapValues(x, y);  // Swapping integers
+    cout << "After swap: x = " << x << ", y = " << y << endl;
+
+    cout << "Before swap: a = " << a << ", b = " << b << endl;
+    swapValues(a, b);  // Swapping doubles
+    cout << "After swap: a = " << a << ", b = " << b << endl;
+
+    return 0;
+}
+```
+
+### Output:
+```
+Before swap: x = 5, y = 10
+After swap: x = 10, y = 5
+Before swap: a = 1.5, b = 2.5
+After swap: a = 2.5, b = 1.5
+```
+
+In this example, `swapValues` is a template function that works for any data type (`int`, `double`, etc.) without rewriting the function for each type.
+
+### 2. Class Templates:
+A **class template** allows a class to handle different data types. The class definition can use a generic type that will be replaced by the actual type when the object is instantiated.
+
+### Example:
+```cpp
+#include <iostream>
+using namespace std;
+
+// Class template
+template <typename T>
+class Box {
+    T value;
+    
+public:
+    Box(T v) : value(v) {}  // Parameterized constructor
+
+    void display() {
+        cout << "Value: " << value << endl;
+    }
+};
+
+int main() {
+    Box<int> intBox(123);    // Box for integers
+    intBox.display();
+
+    Box<double> doubleBox(45.67);  // Box for doubles
+    doubleBox.display();
+
+    return 0;
+}
+```
+
+## Output:
+```
+Value: 123
+Value: 45.67
+```
+
+In this example, the `Box` class template can handle both `int` and `double` types.
+
+## Benefits of Generic Programming:
+- **Code Reusability**: You write a single template function or class that works with multiple data types.
+- **Type Safety**: Ensures that type checks are done during compilation, reducing runtime errors.
+- **Efficiency**: Templates are resolved at compile-time, meaning there's no runtime overhead.
+
+Generic programming in C++ provides flexibility and reusability while maintaining type safety, making it a powerful feature in the language.
+
+### 19) Distinguish between the term class template and template class.
+
+Ans - Here's a distinction between **class template** and **template class** presented in a chart:
+
+| **Criteria**           | **Class Template**                                        | **Template Class**                                     |
+|------------------------|-----------------------------------------------------------|--------------------------------------------------------|
+| **Definition**          | A blueprint for creating classes that can handle multiple data types. | A class that is instantiated from a class template with a specific type. |
+| **Purpose**             | Used to define generic classes that can work with any data type. | Refers to a class that has already been instantiated from the class template. |
+| **Declaration**         | Declared using the `template` keyword with a generic type. Example: `template <typename T> class Box {}` | A specific instantiation of a class template with a concrete data type. Example: `Box<int> myBox;` |
+| **Generic**             | It is a template and doesn't represent a specific class until it is instantiated. | Represents a specific type once the class template is instantiated with a concrete type. |
+| **Example (Code)**      | `template <typename T> class Box { T value; }`            | `Box<int> intBox;` or `Box<double> doubleBox;`         |
+| **When used**           | When defining a class that should support multiple types. | When using a class with a specific data type based on a class template. |
+| **Usage**               | Allows for defining classes without specifying a concrete data type. | Refers to the actual class generated from the template for a specific type. |
+| **Flexibility**         | More flexible, as it is generic and reusable across types. | Less flexible, as it is specific to the type used during instantiation. |
+
+### 20) Distinguish between overloaded functions and function templates. Write a function template for finding the minimum value contained in an array.
+
+Ans - Here's a distinction between **overloaded functions** and **function templates** presented in a chart:
+
+| **Criteria**             | **Overloaded Functions**                                     | **Function Templates**                                        |
+|--------------------------|--------------------------------------------------------------|---------------------------------------------------------------|
+| **Definition**            | Multiple functions with the same name but different parameter types. | A single function definition that works with any data type.    |
+| **Number of Implementations** | Multiple function implementations, each for different types. | One implementation that is type-independent.                   |
+| **Code Reusability**      | Limited, requires writing a new function for each type.       | High, one function works for any type without rewriting.        |
+| **Compilation**           | Each overloaded function is compiled separately for each type. | The template is compiled only when instantiated with a specific type. |
+| **Ease of Maintenance**   | More difficult to maintain, as each overload needs to be modified. | Easier to maintain, since only one template needs modification. |
+| **Flexibility**           | Limited, as specific overloads are needed for each type.      | Highly flexible, automatically works with any type.             |
+| **Example (Code)**        | ```void print(int x); void print(double x);```                | ```template <typename T> void print(T x);```                    |
+
+## Example of a Function Template for Finding the Minimum Value in an Array:
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// Function template to find the minimum value in an array
+template <typename T>
+T findMin(T arr[], int size) {
+    T min = arr[0];
+    for (int i = 1; i < size; i++) {
+        if (arr[i] < min)
+            min = arr[i];
+    }
+    return min;
+}
+
+int main() {
+    int intArr[] = {3, 1, 4, 1, 5};
+    double doubleArr[] = {2.5, 3.1, 0.9, 4.0};
+
+    cout << "Min in intArr: " << findMin(intArr, 5) << endl;     // Works for int
+    cout << "Min in doubleArr: " << findMin(doubleArr, 4) << endl;  // Works for double
+
+    return 0;
+}
+```
+
+## Output:
+```
+Min in intArr: 1
+Min in doubleArr: 0.9
+```
+
+In this template, `findMin()` works with arrays of any data type (`int`, `double`, etc.), demonstrating how templates avoid the need for separate function overloads.
